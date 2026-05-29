@@ -3,3 +3,14 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+
+a {
+  text-decoration: none;
+  color: white;
+  transition: 0.3s ease-in-out transform;
+}
+
+a:hover {
+  transform: scale(1.3);
+}

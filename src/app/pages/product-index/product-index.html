@@ -1,0 +1,28 @@
+<div class="search">
+  <label for="search">Search : </label>
+  <input type="text" [(ngModel)]="searchInput">
+  <button (click)="search()">🔎</button>
+</div>
+
+<div appGsapEntrance>
+@for (p of products(); track p.id) {
+
+<!--    <div class="row" [ngClass]="{'even' : $even, 'odd' : $odd}">-->
+    <div [class.row]="true" [class.even]="$even" [class.odd]="$odd" appGsapHover appGsapEntrance>
+      <p>{{ p.id }}</p>
+      <p>{{ p.name }}</p>
+      <p>{{ p.price | money | uppercase}}</p>
+      <img [src]="p.image" [alt]="'image de ' + p.name" height="150">
+
+      @if(p.liked){
+        <button (click)="toggleLike(p)">❤️</button>
+      } @else {
+        <button (click)="toggleLike(p)">🩶</button>
+      }
+    </div>
+
+
+  } @empty {
+    <p>No products to display</p>
+  }
+</div>

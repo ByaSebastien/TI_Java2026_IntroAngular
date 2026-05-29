@@ -1,0 +1,22 @@
+:host{
+
+  display: flex;
+  flex-direction: column;
+
+  .row {
+    display: flex;
+    gap: 1rem;
+    border-bottom: 1px solid black;
+    padding: 1rem;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  .even {
+    background-color: lightgrey;
+  }
+
+  .odd {
+    background-color: aqua;
+  }
+}
