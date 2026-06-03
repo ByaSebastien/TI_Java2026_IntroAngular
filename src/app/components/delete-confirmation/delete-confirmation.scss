@@ -1,0 +1,36 @@
+:host{
+  display: block;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  background-color: darkcyan;
+  color: white;
+  z-index: 100;
+  border: 0.2rem solid black;
+  box-shadow: chartreuse -1rem -1rem 1rem, pink 1rem -1rem 1rem, yellow -1rem 1rem 1rem, black 1rem 1rem 1rem;
+
+  .header {
+    background-color: chartreuse;
+    color: black;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  p {
+    padding: 1rem;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 1rem;
+
+    button {
+      background-color: deeppink;
+      color: white;
+      padding: 0.7rem;
+      border-radius: 100%;
+    }
+  }
+}

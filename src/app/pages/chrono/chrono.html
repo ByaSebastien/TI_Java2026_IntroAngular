@@ -1,0 +1,6 @@
+<h2>{{ seconds() | toMinuteSecond }}</h2>
+<div class="buttons">
+  <button (click)="start()" [disabled]="timer">Start</button>
+  <button (click)="stop()" [disabled]="!timer">Stop</button>
+  <button (click)="reset()" [disabled]="timer">Reset</button>
+</div>

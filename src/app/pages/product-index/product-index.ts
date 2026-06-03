@@ -1,5 +1,7 @@
 import {
   Component,
+  computed,
+  effect,
   signal,
   WritableSignal,
 } from '@angular/core';
@@ -9,10 +11,19 @@ import { GsapHover } from '../../directives/gsap-hover';
 import { GsapEntrance } from '../../directives/gsap-entrance';
 import { MoneyPipe } from '../../pipes/money-pipe';
 import { UpperCasePipe } from '@angular/common';
+import { CartLine } from '../../models/cart-line';
+import { DeleteConfirmation } from '../../components/delete-confirmation/delete-confirmation';
 
 @Component({
   selector: 'app-product-index',
-  imports: [FormsModule, GsapHover, GsapEntrance, MoneyPipe, UpperCasePipe],
+  imports: [
+    FormsModule,
+    GsapHover,
+    GsapEntrance,
+    MoneyPipe,
+    UpperCasePipe,
+    DeleteConfirmation,
+  ],
   templateUrl: './product-index.html',
   styleUrl: './product-index.scss',
 })
@@ -44,9 +55,23 @@ export class ProductIndex {
     },
   ]);
 
+  cart: WritableSignal<CartLine[]> = signal([]);
+
+  totalPrice = computed(() => {
+    return this.cart()
+      .map((l) => l.productPrice * l.quantity)
+      .reduce((a, b) => a + b, 0);
+  });
+
   searchInput: string = '';
 
-  constructor() {}
+  selectedProduct: WritableSignal<Product | undefined> = signal(undefined);
+
+  constructor() {
+    effect(() => {
+      console.log('Cart has changed. Total price is now: ' + this.totalPrice());
+    });
+  }
 
   toggleLike(product: Product): void {
     product.liked = !product.liked;
@@ -58,5 +83,66 @@ export class ProductIndex {
         product.name.toLowerCase().includes(this.searchInput.toLowerCase()),
       ),
     );
+  }
+
+  addToCart(p: Product): void {
+    this.cart.update((cart) => {
+      let existing = cart.find((line) => line.productName === p.name);
+      if (existing) {
+        existing.quantity = existing.quantity + 1;
+        return [...cart];
+      }
+      return [
+        ...cart,
+        { productName: p.name, quantity: 1, productPrice: p.price },
+      ];
+    });
+  }
+
+  removeFromCart(productName: string): void {
+    this.cart.update((cart) =>
+      cart.filter((line) => line.productName !== productName),
+    );
+  }
+
+  addQuantity(productName: string): void {
+    this.cart.update((cart) => {
+      let existing = cart.find((line) => line.productName === productName);
+      if (existing) {
+        existing.quantity = existing.quantity + 1;
+      }
+      return [...cart];
+    });
+  }
+
+  removeQuantity(productName: string): void {
+    this.cart.update((cart) => {
+      let existing = cart.find((line) => line.productName === productName);
+      if (existing) {
+        existing.quantity = existing.quantity - 1;
+
+        if (existing.quantity <= 0) {
+          return [...cart.filter((line) => line.productName !== productName)];
+        }
+      }
+      return [...cart];
+    });
+  }
+
+  setSelectedProduct(product: Product): void {
+    this.selectedProduct.set(product);
+  }
+
+  cancelDeleting() {
+    console.log('Canceled deleting ' + this.selectedProduct()?.name);
+    this.selectedProduct.set(undefined);
+  }
+
+  confirmDeleting() {
+    console.log('Confirmed deleting ' + this.selectedProduct()?.name);
+    this.products.update((products) =>
+      products.filter((p) => p.name !== this.selectedProduct()?.name),
+    );
+    this.selectedProduct.set(undefined);
   }
 }

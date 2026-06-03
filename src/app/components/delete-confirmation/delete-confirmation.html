@@ -1,0 +1,12 @@
+<div class="header">
+  <ng-content></ng-content>
+</div>
+<p>Etes vous sûr de vouloir supprimer {{ productName() }}</p>
+<div class="buttons">
+  @if (!customActions()) {
+    <button (click)="cancel()" appGsapHover>Cancel</button>
+    <button (click)="confirm()" appGsapHover>Confirm</button>
+  } @else {
+    <ng-container [ngTemplateOutlet]="customActions()"></ng-container>
+  }
+</div>

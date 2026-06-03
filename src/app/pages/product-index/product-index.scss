@@ -19,4 +19,14 @@
   .odd {
     background-color: aqua;
   }
+
+  .cart {
+    display: flex;
+    flex-direction: column;
+
+    .cart-item{
+      display: flex;
+      gap: 1rem;
+    }
+  }
 }
