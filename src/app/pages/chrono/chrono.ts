@@ -46,6 +46,6 @@ export class Chrono implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    stop();
+    // stop();
   }
 }

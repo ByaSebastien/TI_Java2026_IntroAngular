@@ -1,11 +1,12 @@
 import {
   Component,
-  computed,
+  computed, inject,
   input,
-  output,
+  output, Signal,
 } from '@angular/core';
 import { CartLine } from '../../models/cart-line';
 import { MoneyPipe } from '../../pipes/money-pipe';
+import { CartService } from '../../services/cart-service';
 
 @Component({
   selector: 'app-cart',
@@ -14,7 +15,10 @@ import { MoneyPipe } from '../../pipes/money-pipe';
   styleUrl: './cart.scss',
 })
 export class Cart {
-  cart = input.required<CartLine[]>();
+
+  cartService: CartService = inject(CartService);
+
+  cart: Signal<CartLine[]> = this.cartService.cart;
 
   minus = output<string>();
   plus = output<string>();

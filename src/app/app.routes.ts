@@ -21,7 +21,10 @@ export const routes: Routes = [
   },
   {
     path: 'chrono',
-    loadComponent: () =>
-      import('./pages/chrono/chrono').then((m) => m.Chrono),
+    loadComponent: () => import('./pages/chrono/chrono').then((m) => m.Chrono),
+  },
+  {
+    path: 'yugi',
+    loadComponent: () => import('./pages/yu-gi-index/yu-gi-index').then((m) => m.YuGiIndex),
   },
 ];

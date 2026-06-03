@@ -2,6 +2,8 @@ import {
   Component,
   computed,
   effect,
+  inject,
+  Signal,
   signal,
   WritableSignal,
 } from '@angular/core';
@@ -14,6 +16,7 @@ import { UpperCasePipe } from '@angular/common';
 import { CartLine } from '../../models/cart-line';
 import { DeleteConfirmation } from '../../components/delete-confirmation/delete-confirmation';
 import { Cart } from '../../components/cart/cart';
+import { CartService } from '../../services/cart-service';
 
 @Component({
   selector: 'app-product-index',
@@ -30,6 +33,9 @@ import { Cart } from '../../components/cart/cart';
   styleUrl: './product-index.scss',
 })
 export class ProductIndex {
+
+  cartService: CartService = inject(CartService);
+
   products: WritableSignal<Product[]> = signal([
     {
       id: 1,
@@ -57,13 +63,13 @@ export class ProductIndex {
     },
   ]);
 
-  cart: WritableSignal<CartLine[]> = signal([]);
-
   searchInput: string = '';
 
   selectedProduct: WritableSignal<Product | undefined> = signal(undefined);
 
-  constructor() {}
+  constructor(
+    // private readonly cartService: CartService,
+  ) {}
 
   toggleLike(product: Product): void {
     product.liked = !product.liked;
@@ -78,47 +84,19 @@ export class ProductIndex {
   }
 
   addToCart(p: Product): void {
-    this.cart.update((cart) => {
-      let existing = cart.find((line) => line.productName === p.name);
-      if (existing) {
-        existing.quantity = existing.quantity + 1;
-        return [...cart];
-      }
-      return [
-        ...cart,
-        { productName: p.name, quantity: 1, productPrice: p.price },
-      ];
-    });
+    this.cartService.addToCart(p);
   }
 
   removeFromCart(productName: string): void {
-    this.cart.update((cart) =>
-      cart.filter((line) => line.productName !== productName),
-    );
+    this.cartService.removeFromCart(productName);
   }
 
   addQuantity(productName: string): void {
-    this.cart.update((cart) => {
-      let existing = cart.find((line) => line.productName === productName);
-      if (existing) {
-        existing.quantity = existing.quantity + 1;
-      }
-      return [...cart];
-    });
+    this.cartService.appendCart(productName);
   }
 
   removeQuantity(productName: string): void {
-    this.cart.update((cart) => {
-      let existing = cart.find((line) => line.productName === productName);
-      if (existing) {
-        existing.quantity = existing.quantity - 1;
-
-        if (existing.quantity <= 0) {
-          return [...cart.filter((line) => line.productName !== productName)];
-        }
-      }
-      return [...cart];
-    });
+    this.cartService.withdrawCart(productName);
   }
 
   setSelectedProduct(product: Product): void {

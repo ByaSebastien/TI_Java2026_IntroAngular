@@ -1,0 +1,20 @@
+<div class="buttons">
+  <button (click)="previous()">⬅️</button>
+  <button (click)="next()">➡️</button>
+</div>
+<ul>
+  @for (c of yugiResult()?.data; track c.id) {
+    <li>
+      <img [src]="c.card_images[0].image_url_small" />
+    </li>
+  }
+</ul>
+
+<!--<ul>-->
+<!--  @for (c of (yugiResult$ | async)?.data; track c.id) {-->
+<!--    <li>-->
+<!--      <img [src]="c.card_images[0].image_url_small" />-->
+<!--    </li>-->
+<!--  }-->
+<!--</ul>-->
+
