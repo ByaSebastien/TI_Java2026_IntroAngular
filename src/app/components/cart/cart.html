@@ -1,0 +1,13 @@
+  @for (c of cart(); track c.productName) {
+    <div class="cart-item">
+      <p>{{ c.productName }}</p>
+      <p>{{ c.quantity }}</p>
+      <button (click)="emit('minus', c.productName)">➖</button>
+      <button (click)="emit('plus', c.productName)">➕</button>
+      <button (click)="emit('delete', c.productName)">❌</button>
+    </div>
+  } @empty {
+    <p>Cart is empty</p>
+  }
+  <p>Total : {{ totalPrice() | money }}</p>
+

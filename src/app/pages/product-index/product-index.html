@@ -29,20 +29,12 @@
     <p>No products to display</p>
   }
 </div>
-<div class="cart">
-  @for (c of cart(); track c.productName) {
-    <div class="cart-item">
-      <p>{{ c.productName }}</p>
-      <p>{{ c.quantity }}</p>
-      <button (click)="removeQuantity(c.productName)">➖</button>
-      <button (click)="addQuantity(c.productName)">➕</button>
-      <button (click)="removeFromCart(c.productName)">❌</button>
-    </div>
-  } @empty {
-    <p>Cart is empty</p>
-  }
-  <p>Total : {{ totalPrice() | money }}</p>
-</div>
+<app-cart
+  [cart]="cart()"
+  (minus)="removeQuantity($event)"
+  (plus)="addQuantity($event)"
+  (delete)="removeFromCart($event)"
+></app-cart>
 
 @if (selectedProduct()) {
   <app-delete-confirmation

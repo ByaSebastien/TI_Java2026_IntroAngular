@@ -13,6 +13,7 @@ import { MoneyPipe } from '../../pipes/money-pipe';
 import { UpperCasePipe } from '@angular/common';
 import { CartLine } from '../../models/cart-line';
 import { DeleteConfirmation } from '../../components/delete-confirmation/delete-confirmation';
+import { Cart } from '../../components/cart/cart';
 
 @Component({
   selector: 'app-product-index',
@@ -23,6 +24,7 @@ import { DeleteConfirmation } from '../../components/delete-confirmation/delete-
     MoneyPipe,
     UpperCasePipe,
     DeleteConfirmation,
+    Cart,
   ],
   templateUrl: './product-index.html',
   styleUrl: './product-index.scss',
@@ -57,21 +59,11 @@ export class ProductIndex {
 
   cart: WritableSignal<CartLine[]> = signal([]);
 
-  totalPrice = computed(() => {
-    return this.cart()
-      .map((l) => l.productPrice * l.quantity)
-      .reduce((a, b) => a + b, 0);
-  });
-
   searchInput: string = '';
 
   selectedProduct: WritableSignal<Product | undefined> = signal(undefined);
 
-  constructor() {
-    effect(() => {
-      console.log('Cart has changed. Total price is now: ' + this.totalPrice());
-    });
-  }
+  constructor() {}
 
   toggleLike(product: Product): void {
     product.liked = !product.liked;
