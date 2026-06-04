@@ -25,6 +25,12 @@ export const routes: Routes = [
   },
   {
     path: 'yugi',
-    loadComponent: () => import('./pages/yu-gi-index/yu-gi-index').then((m) => m.YuGiIndex),
+    loadComponent: () =>
+      import('./pages/yu-gi-index/yu-gi-index').then((m) => m.YuGiIndex),
+  },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./pages/login/login').then((m) => m.Login),
   },
 ];
