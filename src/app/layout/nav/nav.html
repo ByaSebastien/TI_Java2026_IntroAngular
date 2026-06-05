@@ -3,4 +3,11 @@
 <a routerLink="/yugi">Yu gi oh</a>
 <a routerLink="/chrono">Chono</a>
 <a routerLink="/about">About</a>
-<a routerLink="/login">Login</a>
+<a routerLink="/contact">Contact</a>
+
+@if (!connectedUser()) {
+  <a routerLink="/login">Login</a>
+} @else {
+  <button (click)="logout()">Logout</button>
+}
+

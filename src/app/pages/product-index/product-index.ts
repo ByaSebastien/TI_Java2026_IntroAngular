@@ -17,6 +17,8 @@ import { CartLine } from '../../models/cart-line';
 import { DeleteConfirmation } from '../../components/delete-confirmation/delete-confirmation';
 import { Cart } from '../../components/cart/cart';
 import { CartService } from '../../services/cart-service';
+import { ProductService } from '../../services/product.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-product-index',
@@ -35,33 +37,12 @@ import { CartService } from '../../services/cart-service';
 export class ProductIndex {
 
   cartService: CartService = inject(CartService);
+  productService: ProductService = inject(ProductService);
+  authService: AuthService = inject(AuthService);
 
-  products: WritableSignal<Product[]> = signal([
-    {
-      id: 1,
-      name: 'Switch 2',
-      price: 45900,
-      image:
-        'https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_152255307?x=536&y=402&format=jpg&quality=80&sp=yes&strip=yes&trim&ex=536&ey=402&align=center&resizesource&unsharp=1.5x1+0.7+0.02&cox=0&coy=0&cdx=536&cdy=402',
-      liked: false,
-    },
-    {
-      id: 2,
-      name: 'PS5',
-      price: 48900,
-      image:
-        'https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_161824057?x=536&y=402&format=jpg&quality=80&sp=yes&strip=yes&trim&ex=536&ey=402&align=center&resizesource&unsharp=1.5x1+0.7+0.02&cox=0&coy=0&cdx=536&cdy=402',
-      liked: false,
-    },
-    {
-      id: 3,
-      name: 'Xbox Series S',
-      price: 47243,
-      image:
-        'https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MP_145956804?x=536&y=402&format=jpg&quality=80&sp=yes&strip=yes&trim&ex=536&ey=402&align=center&resizesource&unsharp=1.5x1+0.7+0.02&cox=0&coy=0&cdx=536&cdy=402',
-      liked: false,
-    },
-  ]);
+  connectedUser = this.authService.connectedUser;
+
+  productsRessource = this.productService.getProduct();
 
   searchInput: string = '';
 
@@ -73,14 +54,6 @@ export class ProductIndex {
 
   toggleLike(product: Product): void {
     product.liked = !product.liked;
-  }
-
-  search() {
-    this.products.set(
-      this.products().filter((product) =>
-        product.name.toLowerCase().includes(this.searchInput.toLowerCase()),
-      ),
-    );
   }
 
   addToCart(p: Product): void {
@@ -109,10 +82,10 @@ export class ProductIndex {
   }
 
   confirmDeleting() {
-    console.log('Confirmed deleting ' + this.selectedProduct()?.name);
-    this.products.update((products) =>
-      products.filter((p) => p.name !== this.selectedProduct()?.name),
-    );
-    this.selectedProduct.set(undefined);
+    this.productService.deleteProduct(this.selectedProduct()?.id!).subscribe(() => {
+      console.log('Deleted ' + this.selectedProduct()?.name);
+      this.selectedProduct.set(undefined);
+      this.productsRessource.reload();
+    });
   }
 }

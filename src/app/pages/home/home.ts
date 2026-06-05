@@ -5,9 +5,11 @@ import {
   DestroyRef,
   inject,
   OnDestroy,
-  OnInit,
+  OnInit, Signal,
 } from '@angular/core';
 import { BaseComponent } from '../../components/base.component/base.component';
+import { AuthService } from '../../services/auth.service';
+import { UserTokenDto } from '../../models/user-token-dto';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +21,11 @@ export class Home
   extends BaseComponent
   implements OnInit, AfterViewInit, AfterContentInit
 {
+
+  private readonly authService: AuthService = inject(AuthService);
+
+  connectedUser: Signal<UserTokenDto | undefined> = this.authService.connectedUser;
+
   constructor() {
     super();
     console.log('In constructor');

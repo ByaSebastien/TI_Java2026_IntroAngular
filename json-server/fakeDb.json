@@ -1,0 +1,30 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "John Doe",
+      "password": "$2a$10$u/EHly2RPF3zCB0tuwe/8.8/bY4L/I3/M1AAQX18ojGhf4DPdrAQS"
+    },
+    {
+      "email": "Seb@test.be",
+      "password": "$2a$10$u/EHly2RPF3zCB0tuwe/8.8/bY4L/I3/M1AAQX18ojGhf4DPdrAQS",
+      "id": 2
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "Switch 2",
+      "price": 45900,
+      "image": "https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_152255307?x=536&y=402&format=jpg&quality=80&sp=yes&strip=yes&trim&ex=536&ey=402&align=center&resizesource&unsharp=1.5x1+0.7+0.02&cox=0&coy=0&cdx=536&cdy=402",
+      "liked": false
+    },
+    {
+      "id": 2,
+      "name": "PS5",
+      "price": 48900,
+      "image": "https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_161824057?x=536&y=402&format=jpg&quality=80&sp=yes&strip=yes&trim&ex=536&ey=402&align=center&resizesource&unsharp=1.5x1+0.7+0.02&cox=0&coy=0&cdx=536&cdy=402",
+      "liked": false
+    }
+  ]
+}

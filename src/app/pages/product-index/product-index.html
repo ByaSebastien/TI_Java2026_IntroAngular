@@ -1,13 +1,7 @@
-<div class="search">
-  <label for="search">Search : </label>
-  <input type="text" [(ngModel)]="searchInput">
-  <button (click)="search()">🔎</button>
-</div>
+<div class="products" appGsapEntrance>7
 
-<div class="products" appGsapEntrance>
-  @for (p of products(); track p.id) {
+  @for (p of productsRessource.value(); track p.id) {
 
-    <!--    <div class="row" [ngClass]="{'even' : $even, 'odd' : $odd}">-->
     <div [class.row]="true" [class.even]="$even" [class.odd]="$odd" appGsapEntrance>
       <p>{{ p.id }}</p>
       <p>{{ p.name }}</p>
@@ -20,8 +14,10 @@
         <button (click)="toggleLike(p)">🩶</button>
       }
 
-      <button (click)="addToCart(p)">Add to cart</button>
-      <button (click)="setSelectedProduct(p)">❌</button>
+<!--      @if (connectedUser()) {-->
+        <button (click)="addToCart(p)">Add to cart</button>
+        <button (click)="setSelectedProduct(p)">❌</button>
+<!--      }-->
     </div>
 
 
