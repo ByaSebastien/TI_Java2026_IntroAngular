@@ -1,4 +1,7 @@
 import { Routes } from '@angular/router';
+import { isAuthenticatedGuard } from './guards/is-authenticated-guard';
+import { areYouSureGuard } from './guards/are-you-sure-guard';
+import { yuGiResolver } from './resolvers/yu-gi-resolver';
 
 export const routes: Routes = [
   {
@@ -22,11 +25,19 @@ export const routes: Routes = [
   {
     path: 'chrono',
     loadComponent: () => import('./pages/chrono/chrono').then((m) => m.Chrono),
+    canActivate: [isAuthenticatedGuard],
   },
   {
     path: 'yugi',
     loadComponent: () =>
       import('./pages/yu-gi-index/yu-gi-index').then((m) => m.YuGiIndex),
+    resolve: {
+      yugiResult: yuGiResolver,
+    }
+  },
+  {
+    path: 'yugi/:id',
+    loadComponent: () => import('./pages/yugi-details/yugi-details').then(m => m.YugiDetails),
   },
   {
     path: 'login',
@@ -35,5 +46,6 @@ export const routes: Routes = [
   {
     path: 'contact',
     loadComponent: () => import('./pages/contact/contact').then((m) => m.Contact),
+    canDeactivate: [areYouSureGuard],
   },
 ];

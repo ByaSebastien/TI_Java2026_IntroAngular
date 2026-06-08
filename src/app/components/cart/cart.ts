@@ -7,6 +7,7 @@ import {
 import { CartLine } from '../../models/cart-line';
 import { MoneyPipe } from '../../pipes/money-pipe';
 import { CartService } from '../../services/cart-service';
+import { cartStore } from '../../stores/cart-store';
 
 @Component({
   selector: 'app-cart',
@@ -16,19 +17,14 @@ import { CartService } from '../../services/cart-service';
 })
 export class Cart {
 
-  cartService: CartService = inject(CartService);
+  cartStore = inject(cartStore)
 
-  cart: Signal<CartLine[]> = this.cartService.cart;
+  cart: Signal<CartLine[]> = this.cartStore.lines;
+  totalPrice = this.cartStore.totalPrice;
 
   minus = output<string>();
   plus = output<string>();
   delete = output<string>();
-
-  totalPrice = computed(() => {
-    return this.cart()
-      .map((l) => l.productPrice * l.quantity)
-      .reduce((a, b) => a + b, 0);
-  });
 
   emit(action: 'minus' | 'plus' | 'delete', productName: string) {
     switch (action) {

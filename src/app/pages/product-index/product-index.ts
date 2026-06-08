@@ -19,6 +19,7 @@ import { Cart } from '../../components/cart/cart';
 import { CartService } from '../../services/cart-service';
 import { ProductService } from '../../services/product.service';
 import { AuthService } from '../../services/auth.service';
+import { cartStore } from '../../stores/cart-store';
 
 @Component({
   selector: 'app-product-index',
@@ -36,7 +37,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class ProductIndex {
 
-  cartService: CartService = inject(CartService);
+  cartStore = inject(cartStore);
   productService: ProductService = inject(ProductService);
   authService: AuthService = inject(AuthService);
 
@@ -57,19 +58,19 @@ export class ProductIndex {
   }
 
   addToCart(p: Product): void {
-    this.cartService.addToCart(p);
+    this.cartStore.addLine({productName: p.name, quantity: 1, productPrice: p.price});
   }
 
   removeFromCart(productName: string): void {
-    this.cartService.removeFromCart(productName);
+    // this.cartStore.removeLine({productName: productName});
   }
 
   addQuantity(productName: string): void {
-    this.cartService.appendCart(productName);
+    // this.cartService.appendCart(productName);
   }
 
   removeQuantity(productName: string): void {
-    this.cartService.withdrawCart(productName);
+    // this.cartService.withdrawCart(productName);
   }
 
   setSelectedProduct(product: Product): void {

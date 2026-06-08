@@ -1,0 +1,6 @@
+@if (card.isLoading()) {
+  <p>Loading...</p>
+} @else if (card.hasValue()) {
+  <img [src]="card.value()!.data[0].card_images[0].image_url_small" [alt]="" />
+  <button [routerLink]="`/yugi/64867422`">Next</button>
+}

@@ -3,10 +3,12 @@
   <button (click)="next()">➡️</button>
 </div>
 <ul>
-  @for (c of yugiResult()?.data; track c.id) {
-    <li>
+  @for (c of yugiResult()!.data; track c.id) {
+    <li [routerLink]="`/yugi/${c.id}`">
       <img [src]="c.card_images[0].image_url_small" />
     </li>
+  } @empty {
+    <p>No cards to display</p>
   }
 </ul>
 

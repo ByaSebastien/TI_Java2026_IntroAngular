@@ -1,6 +1,6 @@
-import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { YugiResult } from '../models/yu-gi-result';
+import { inject, Injectable, Signal } from '@angular/core';
+import { HttpClient, httpResource } from '@angular/common/http';
+import { Card, YugiResult } from '../models/yu-gi-result';
 
 @Injectable({
   providedIn: 'root',
@@ -18,5 +18,9 @@ export class YuGiService {
     let offset = pageNumber * limit;
 
     return this._http.get<YugiResult>(`${this.apiUrl}?language=fr&num=${limit}&offset=${offset}`);
+  }
+
+  getCard(id: Signal<number | undefined>) {
+    return httpResource<YugiResult>(() => `${this.apiUrl}?language=fr&id=${id()}`);
   }
 }
